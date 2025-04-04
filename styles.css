@@ -223,6 +223,11 @@ body {
 .hamburger {
     display: none;
     cursor: pointer;
+    padding: 10px;
+    z-index: 1001;
+    transition: all 0.3s ease;
+    border: none;
+    background: transparent;
 }
 
 .bar {
@@ -270,8 +275,15 @@ body {
 
 /* Mobile responsive styles */
 @media (max-width: 768px) {
+    .navbar {
+        flex-wrap: wrap;
+        padding: 0.5rem 5%;
+    }
+    
     .navbar-links, .auth-buttons {
         display: none;
+        width: 100%;
+        order: 3;
     }
 
     .navbar-links.active, .auth-buttons.active {
@@ -279,33 +291,63 @@ body {
         flex-direction: column;
         width: 100%;
         text-align: center;
-        transition: 0.3s;
+        background-color: #fff;
+        animation: slideDown 0.3s ease;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
     }
-
-    .navbar {
-        flex-wrap: wrap;
+    
+    @keyframes slideDown {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
     }
 
     .navbar-links.active {
-        margin: 1rem 0;
+        margin: 0.5rem 0;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid #e9ecef;
     }
 
     .navbar-links ul {
         flex-direction: column;
+        width: 100%;
+        margin: 0;
+        padding: 0.5rem 0;
     }
 
     .navbar-links li {
-        margin: 1rem 0;
+        margin: 0.8rem 0;
+        padding: 0;
+    }
+    
+    .navbar-links a {
+        display: block;
+        padding: 0.5rem 0;
     }
 
     .auth-buttons.active {
         flex-direction: column;
         width: 100%;
         gap: 0.5rem;
+        padding: 0.5rem 0 1rem;
+    }
+    
+    .login-btn, .signup-btn {
+        width: 80%;
+        margin: 0.3rem auto;
     }
 
     .hamburger {
         display: block;
+        order: 3;
+    }
+    
+    .logo {
+        order: 1;
+        flex: 1;
+    }
+    
+    .hamburger {
+        order: 2;
     }
 
     .hamburger.active .bar:nth-child(2) {
