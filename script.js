@@ -4,10 +4,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const authButtons = document.querySelector('.auth-buttons');
 
     // Toggle mobile menu
-    hamburger.addEventListener('click', () => {
+    hamburger.addEventListener('click', (e) => {
+        e.stopPropagation(); // Prevent event from bubbling up
         hamburger.classList.toggle('active');
         navbarLinks.classList.toggle('active');
         authButtons.classList.toggle('active');
+    });
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', (e) => {
+        const isClickInside = navbarLinks.contains(e.target) || 
+                              authButtons.contains(e.target) || 
+                              hamburger.contains(e.target);
+        
+        if (!isClickInside && navbarLinks.classList.contains('active')) {
+            hamburger.classList.remove('active');
+            navbarLinks.classList.remove('active');
+            authButtons.classList.remove('active');
+        }
     });
 
     // Close mobile menu when a link is clicked
@@ -53,7 +67,8 @@ document.addEventListener('DOMContentLoaded', () => {
             // Toggle user dropdown
             const userBtn = document.querySelector('.user-btn');
             if (userBtn) {
-                userBtn.addEventListener('click', () => {
+                userBtn.addEventListener('click', (e) => {
+                    e.stopPropagation(); // Prevent event from bubbling up
                     document.querySelector('.user-dropdown').classList.toggle('active');
                 });
 
