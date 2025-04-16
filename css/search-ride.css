@@ -1,0 +1,156 @@
+/* Search Ride Page Styles */
+.search-ride-container {
+    padding: 2rem 0;
+    background-color: #f8f9fa;
+    min-height: calc(100vh - 80px); /* Adjust based on navbar height */
+}
+
+.search-header {
+    margin-bottom: 2rem;
+    text-align: center;
+    position: relative;
+}
+
+.search-header h1 {
+    font-weight: 600;
+    color: #333;
+    font-family: 'Poppins', sans-serif;
+}
+
+.search-header p {
+    color: #6c757d;
+    margin-bottom: 1rem;
+}
+
+.status-toggle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 1rem;
+    font-size: 0.9rem;
+}
+
+.status-toggle span {
+    font-weight: 500;
+}
+
+/* Ride Request Card */
+.ride-request-card {
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Make card fill column height */
+    overflow: hidden;
+}
+
+.ride-request-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.ride-request-card .card-body {
+    padding: 1.25rem;
+    flex-grow: 1; /* Allow body to grow */
+}
+
+.ride-info {
+    margin-bottom: 1rem;
+}
+
+.info-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
+}
+
+.info-item i {
+    color: #4361ee;
+    margin-right: 0.75rem;
+    margin-top: 3px;
+    width: 20px; /* Ensure consistent icon width */
+    text-align: center;
+}
+
+.info-label {
+    font-size: 0.8rem;
+    color: #6c757d;
+    margin-bottom: 0.1rem;
+    display: block;
+}
+
+.info-value {
+    font-weight: 500;
+    color: #333;
+}
+
+.fare-estimate {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #198754;
+    text-align: right;
+    margin-top: 1rem;
+}
+
+.ride-request-card .card-footer {
+    background-color: #f8f9fa;
+    padding: 1rem 1.25rem;
+    border-top: 1px solid #e9ecef;
+    display: flex;
+    justify-content: space-between;
+}
+
+.card-footer .btn {
+    flex-grow: 1;
+    margin: 0 5px;
+}
+
+.btn-accept {
+    background-color: #198754;
+    border-color: #198754;
+}
+
+.btn-accept:hover {
+    background-color: #157347;
+    border-color: #146c43;
+}
+
+.btn-reject {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.btn-reject:hover {
+    background-color: #bb2d3b;
+    border-color: #b02a37;
+}
+
+/* Placeholder styling */
+.ride-request-card.placeholder {
+    background-color: #fff;
+    border: none;
+}
+
+.ride-request-card.placeholder .card-footer {
+     background-color: #fff;
+     border-top: none;
+}
+
+#no-rides-message {
+    padding: 3rem 0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767px) {
+    .search-header h1 {
+        font-size: 1.8rem;
+    }
+    
+    .card-footer .btn {
+        font-size: 0.9rem;
+        padding: 0.5rem 0.75rem;
+    }
+} 

@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book a Ride - Travel with Buddy</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Mappls CSS -->
+    <link rel="stylesheet" href="https://apis.mappls.com/advancedmaps/api/13f147b9591714fd99197feed32e1cdb/map_sdk_plugins@v3.0/styles/plugin.css"/>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/book-ride.css">
+</head>
+<body>
+    <!-- Header/Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <span class="fw-bold text-primary">Travel with Buddy</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="book-ride.html">Book a Ride</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="search-ride.html">For Drivers</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-primary ms-lg-3" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Login / Sign up</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <h1 class="text-center mb-4">Book Your Ride</h1>
+                
+                <!-- Map Container -->
+                <div id="map"></div>
+                
+                <!-- Booking Form -->
+                <div class="booking-container">
+                    <form id="booking-form">
+                        <!-- Pickup Location -->
+                        <div class="input-group mb-3">
+                            <span class="input-group-text">
+                                <i class="fas fa-circle text-success"></i>
+                            </span>
+                            <input type="text" id="pickup-location" class="form-control" placeholder="Enter pickup location">
+                            <button class="btn" type="button" id="current-location-btn" title="Use current location">
+                                <i class="fas fa-crosshairs"></i>
+                            </button>
+                        </div>
+                        
+                        <!-- Destination -->
+                        <div class="input-group mb-4">
+                            <span class="input-group-text">
+                                <i class="fas fa-location-dot text-danger"></i>
+                            </span>
+                            <input type="text" id="destination" class="form-control" placeholder="Enter destination">
+                        </div>
+                        
+                        <!-- Route Information -->
+                        <div class="route-info mb-4">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="info-item">
+                                        <i class="fas fa-route info-icon"></i>
+                                        <div>
+                                            <div class="text-muted">Distance</div>
+                                            <div id="route-distance" class="fw-bold">0 km</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="info-item">
+                                        <i class="fas fa-clock info-icon"></i>
+                                        <div>
+                                            <div class="text-muted">Est. travel time</div>
+                                            <div id="route-time" class="fw-bold">0 min</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Ride Type Selection -->
+                        <div class="mb-4">
+                            <h5 class="mb-3">Select Ride Type</h5>
+                            <div class="ride-options">
+                                <div class="ride-type active" data-type="Bike">
+                                    <i class="fas fa-motorcycle ride-icon"></i>
+                                    <span class="ride-name">Bike</span>
+                                    <span class="ride-info">Fast & economical</span>
+                                </div>
+                                <div class="ride-type" data-type="Car">
+                                    <i class="fas fa-car ride-icon"></i>
+                                    <span class="ride-name">Car</span>
+                                    <span class="ride-info">Comfortable ride</span>
+                                </div>
+                                <div class="ride-type" data-type="xl">
+                                    <i class="fas fa-car-side ride-icon"></i>
+                                    <span class="ride-name">XL</span>
+                                    <span class="ride-info">For groups</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Ride Time Selection -->
+                        <div class="ride-time-container mb-4">
+                            <h5 class="mb-3">Ride Time</h5>
+                            <select id="ride-time" class="form-select">
+                                <option value="now">Ride now</option>
+                                <option value="schedule">Schedule for later</option>
+                            </select>
+                            
+                            <!-- Schedule Options (Hidden by default) -->
+                            <div id="schedule-options">
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="schedule-date" class="form-label">Date</label>
+                                        <input type="date" id="schedule-date" class="form-control">
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="schedule-time" class="form-label">Time</label>
+                                        <input type="time" id="schedule-time" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Fare Estimate -->
+                        <div class="fare-estimate mb-4">
+                            <div class="row align-items-center">
+                                <div class="col-7">
+                                    <span class="estimate-label">Estimated Fare</span>
+                                </div>
+                                <div class="col-5 text-end">
+                                    <span class="estimate-value">₹50-80</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Book Ride Button -->
+                        <button type="submit" class="btn book-ride-btn">Book Ride</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Searching for Driver Loader -->
+    <div class="searching-loader" id="searchingLoader">
+        <div class="loader-spinner"></div>
+        <h5 class="mb-3">Searching for Driver...</h5>
+        <p class="text-muted">Please wait while we find a driver near you.</p>
+    </div>
+
+    <!-- Booking Confirmation Modal -->
+    <div class="modal fade" id="bookingConfirmationModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="booking-confirmation">
+                        <div class="confirmation-icon">
+                            <i class="fas fa-check-circle"></i>
+                        </div>
+                        <h4 class="mb-3">Ride Booked Successfully!</h4>
+                        <p class="text-muted">Your driver will arrive shortly. You can track your ride in the app.</p>
+                        
+                        <div class="booking-details">
+                            <div class="detail-item">
+                                <div class="detail-label">Pickup Location</div>
+                                <div id="confirm-pickup" class="fw-bold">Loading...</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Destination</div>
+                                <div id="confirm-destination" class="fw-bold">Loading...</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Driver</div>
+                                <div class="fw-bold">Assigning the nearest driver...</div>
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-primary px-4" data-bs-dismiss="modal">Done</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Login / Sign Up</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <ul class="nav nav-tabs" id="authTabs" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="login-tab" data-bs-toggle="tab" data-bs-target="#login" type="button" role="tab">Login</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="signup-tab" data-bs-toggle="tab" data-bs-target="#signup" type="button" role="tab">Sign Up</button>
+                        </li>
+                    </ul>
+                    <div class="tab-content py-3" id="authTabsContent">
+                        <!-- Login Form -->
+                        <div class="tab-pane fade show active" id="login" role="tabpanel">
+                            <form>
+                                <div id="loginError" class="alert alert-danger d-none" role="alert"></div>
+                                <div class="mb-3">
+                                    <label for="loginEmail" class="form-label">Email address</label>
+                                    <input type="email" class="form-control" id="loginEmail" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="loginPassword" class="form-label">Password</label>
+                                    <input type="password" class="form-control" id="loginPassword" required>
+                                </div>
+                                <div class="mb-3 form-check">
+                                    <input type="checkbox" class="form-check-input" id="rememberMe">
+                                    <label class="form-check-label" for="rememberMe">Remember me</label>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100">Login</button>
+                                <div class="text-center mt-3">
+                                    <button type="button" id="googleSignInBtn" class="btn btn-outline-secondary w-100">
+                                        <i class="fab fa-google me-2"></i>Sign in with Google
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        <!-- Sign Up Form -->
+                        <div class="tab-pane fade" id="signup" role="tabpanel">
+                            <form>
+                                <div id="signupError" class="alert alert-danger d-none" role="alert"></div>
+                                <div class="mb-3">
+                                    <label for="signupName" class="form-label">Full Name</label>
+                                    <input type="text" class="form-control" id="signupName" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="signupEmail" class="form-label">Email address</label>
+                                    <input type="email" class="form-control" id="signupEmail" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="signupPhone" class="form-label">Phone Number</label>
+                                    <input type="tel" class="form-control" id="signupPhone" required>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="signupPassword" class="form-label">Password</label>
+                                    <input type="password" class="form-control" id="signupPassword" required minlength="6">
+                                    <div class="form-text">Password must be at least 6 characters</div>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100">Sign Up</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h5 class="mb-3">Travel with Buddy</h5>
+                    <p class="mb-3">Your trusted ride-sharing platform for safe and convenient travel.</p>
+                    <div class="social-icons">
+                        <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+                    <h5 class="mb-3">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="index.html" class="text-white text-decoration-none">Home</a></li>
+                        <li class="mb-2"><a href="book-ride.html" class="text-white text-decoration-none">Book a Ride</a></li>
+                        <li class="mb-2"><a href="about.html" class="text-white text-decoration-none">About Us</a></li>
+                        <li><a href="contact.html" class="text-white text-decoration-none">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-4 mb-4 mb-md-0">
+                    <h5 class="mb-3">Support</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Help Center</a></li>
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Safety Center</a></li>
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Community Guidelines</a></li>
+                        <li><a href="#" class="text-white text-decoration-none">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-4">
+                    <h5 class="mb-3">Contact Us</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="fas fa-map-marker-alt me-2"></i> 123 Transportation St, Mumbai, India</li>
+                        <li class="mb-2"><i class="fas fa-phone-alt me-2"></i> +91 1234 567890</li>
+                        <li><i class="fas fa-envelope me-2"></i> info@travelwithbuddy.com</li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="text-center">
+                <p class="mb-0">&copy; 2023 Travel with Buddy. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Firebase SDK - Load these first -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    
+    <!-- Firebase Config -->
+    <script src="js/firebase-config.js"></script>
+    
+    <!-- Mappls Maps JS - Load these after Firebase -->
+    <script src="https://apis.mappls.com/advancedmaps/api/13f147b9591714fd99197feed32e1cdb/map_sdk?layer=vector&v=3.0"></script>
+    <script src="https://apis.mappls.com/advancedmaps/api/13f147b9591714fd99197feed32e1cdb/map_sdk_plugins@v3.0/plugins/directions.js"></script>
+    <script src="https://apis.mappls.com/advancedmaps/api/13f147b9591714fd99197feed32e1cdb/map_sdk_plugins@v3.0/plugins/search.js"></script>
+    
+    <!-- Authentication Scripts -->
+    <script src="js/auth.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="js/book-ride.js"></script>
+    <script>
+        // Make sure Firebase is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("Document loaded, checking Firebase");
+            
+            // Make sure Firebase Auth is available
+            if (typeof firebase === 'undefined' || !firebase.auth) {
+                console.error("Firebase Auth is not available!");
+                return;
+            }
+            
+            // Handle the "Book Ride" button click to show searching state
+            document.getElementById('booking-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                console.log("Book ride form submitted");
+                
+                // Check if user is logged in
+                if (!firebase.auth().currentUser) {
+                    console.log("User not logged in, showing login modal");
+                    // Show login modal if user is not logged in
+                    new bootstrap.Modal(document.getElementById('loginModal')).show();
+                    return;
+                }
+                
+                const pickupLocation = document.getElementById('pickup-location').value;
+                const destination = document.getElementById('destination').value;
+                
+                if (!pickupLocation || !destination) {
+                    alert('Please enter both pickup location and destination');
+                    return;
+                }
+                
+                // Show the searching loader
+                document.getElementById('searchingLoader').style.display = 'block';
+                
+                // Simulate searching for a driver (3 seconds)
+                setTimeout(function() {
+                    // Hide the searching loader
+                    document.getElementById('searchingLoader').style.display = 'none';
+                    
+                    // Update confirmation modal with booking details
+                    document.getElementById('confirm-pickup').textContent = pickupLocation;
+                    document.getElementById('confirm-destination').textContent = destination;
+                    
+                    // Show booking confirmation modal
+                    const modal = new bootstrap.Modal(document.getElementById('bookingConfirmationModal'));
+                    modal.show();
+                    
+                    // Save ride info to Firestore
+                    try {
+                        if (firebase.auth().currentUser) {
+                            saveRideData(pickupLocation, destination);
+                        }
+                    } catch (error) {
+                        console.error("Error saving ride data:", error);
+                    }
+                }, 3000);
+            });
+            
+            // Function to save ride data to Firestore
+            function saveRideData(pickup, destination) {
+                const user = firebase.auth().currentUser;
+                if (!user) {
+                    console.error("No user logged in when trying to save ride data");
+                    return;
+                }
+                
+                console.log("Saving ride data for user:", user.uid);
+                const selectedRideType = document.querySelector('.ride-type.active').getAttribute('data-type');
+                const estimatedPrice = document.querySelector('.estimate-value').textContent;
+                
+                firebase.firestore().collection('rides').add({
+                    userId: user.uid,
+                    userEmail: user.email,
+                    pickup: pickup,
+                    destination: destination,
+                    rideType: selectedRideType,
+                    estimatedPrice: estimatedPrice,
+                    status: 'booked',
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                })
+                .then(() => {
+                    console.log('Ride information saved successfully');
+                })
+                .catch(error => {
+                    console.error('Error saving ride data:', error);
+                });
+            }
+        });
+    </script>
+</body>
+</html> 

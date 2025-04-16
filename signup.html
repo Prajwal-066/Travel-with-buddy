@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - Travel with Buddy</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="index.html">Travel with Buddy</a>
+            </div>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+            <div class="navbar-links">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </div>
+            <div class="auth-buttons">
+                <button class="login-btn" onclick="location.href='login.html'">Log In</button>
+                <button class="signup-btn" onclick="location.href='signup.html'">Sign Up</button>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <div class="auth-container">
+            <div class="auth-card">
+                <div class="auth-header">
+                    <h2>Create an Account</h2>
+                    <p>Join us for a better travel experience</p>
+                </div>
+                
+                <div class="auth-tabs">
+                    <button class="auth-tab-btn active" data-target="email-signup">Email</button>
+                    <button class="auth-tab-btn" data-target="phone-signup">Phone</button>
+                </div>
+                
+                <div class="auth-content">
+                    <div id="email-signup" class="auth-form active">
+                        <form id="email-signup-form">
+                            <div class="form-group">
+                                <label for="fullname">Full Name</label>
+                                <input type="text" id="fullname" class="form-control" placeholder="Enter your full name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="signup-email">Email Address</label>
+                                <input type="email" id="signup-email" class="form-control" placeholder="Enter your email" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="signup-password">Password</label>
+                                <div class="password-input">
+                                    <input type="password" id="signup-password" class="form-control" placeholder="Create a password" required>
+                                    <span class="password-toggle"><i class="fas fa-eye"></i></span>
+                                </div>
+                                <div class="password-strength">
+                                    <div class="strength-meter">
+                                        <span></span>
+                                    </div>
+                                    <p class="strength-text">Password strength: <span>Weak</span></p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="confirm-password">Confirm Password</label>
+                                <div class="password-input">
+                                    <input type="password" id="confirm-password" class="form-control" placeholder="Confirm your password" required>
+                                    <span class="password-toggle"><i class="fas fa-eye"></i></span>
+                                </div>
+                            </div>
+                            <div class="form-group terms">
+                                <input type="checkbox" id="terms" required>
+                                <label for="terms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
+                            </div>
+                            <button type="submit" class="auth-button">Create Account</button>
+                        </form>
+                    </div>
+                    
+                    <div id="phone-signup" class="auth-form">
+                        <form id="phone-signup-form">
+                            <div class="form-group">
+                                <label for="phone-fullname">Full Name</label>
+                                <input type="text" id="phone-fullname" class="form-control" placeholder="Enter your full name" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="signup-phone">Phone Number</label>
+                                <div class="phone-input">
+                                    <select id="signup-country-code" class="form-select">
+                                        <option value="+1">+1 (US)</option>
+                                        <option value="+44">+44 (UK)</option>
+                                        <option value="+91">+91 (IN)</option>
+                                        <option value="+61">+61 (AU)</option>
+                                        <option value="+33">+33 (FR)</option>
+                                    </select>
+                                    <input type="tel" id="signup-phone" class="form-control" placeholder="Enter phone number" required>
+                                </div>
+                            </div>
+                            <div class="form-group verify-section" style="display: none;">
+                                <label for="signup-verification-code">Verification Code</label>
+                                <div class="verification-input">
+                                    <input type="text" id="signup-verification-code" class="form-control" placeholder="Enter 6-digit code" maxlength="6">
+                                    <button type="button" class="resend-code">Resend</button>
+                                </div>
+                            </div>
+                            <div class="form-group terms">
+                                <input type="checkbox" id="phone-terms" required>
+                                <label for="phone-terms">I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
+                            </div>
+                            <button type="button" id="signup-send-code-btn" class="auth-button">Send Verification Code</button>
+                            <button type="submit" id="signup-verify-code-btn" class="auth-button" style="display: none;">Verify & Create Account</button>
+                        </form>
+                    </div>
+                    
+                    <div class="social-login">
+                        <p>Or sign up with</p>
+                        <button class="google-btn">
+                            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/google/google-original.svg" alt="Google">
+                            <span>Continue with Google</span>
+                        </button>
+                    </div>
+                    
+                    <div class="auth-footer">
+                        <p>Already have an account? <a href="login.html">Log In</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bootstrap & jQuery JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <!-- Firebase Config -->
+    <script src="js/firebase-config.js"></script>
+    <script src="js/auth.js"></script>
+    <!-- Custom JavaScript -->
+    <script src="js/script.js"></script>
+</body>
+</html> 

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search for Rides - Travel with Buddy</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/search-ride.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <a href="index.html">Travel with Buddy</a>
+            </div>
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+            <div class="navbar-links">
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <!-- Add Driver specific links here if needed -->
+                </ul>
+            </div>
+            <div class="auth-buttons">
+                <!-- Assuming driver is logged in -->
+                <div class="user-menu">
+                    <button class="user-btn">
+                        <span class="user-name">Driver Name</span>
+                        <i class="fas fa-user-circle"></i>
+                    </button>
+                    <div class="user-dropdown">
+                        <a href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+                        <a href="#"><i class="fas fa-history"></i> Ride History</a>
+                        <a href="#"><i class="fas fa-cog"></i> Settings</a>
+                        <a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main class="search-ride-container">
+        <div class="container">
+            <div class="search-header">
+                <h1>Available Ride Requests</h1>
+                <p>Find passengers nearby looking for a ride.</p>
+                <div class="status-toggle">
+                    <span>Status:</span>
+                    <button class="btn btn-success btn-sm">Online</button>
+                    <!-- <button class="btn btn-secondary btn-sm">Offline</button> -->
+                </div>
+            </div>
+
+            <div id="ride-requests-list" class="row gy-4">
+                <!-- Ride request cards will be dynamically inserted here -->
+                <div class="col-md-6 col-lg-4">
+                     <div class="ride-request-card placeholder">
+                        <div class="card-body">
+                            <div class="placeholder-glow">
+                                <span class="placeholder col-8"></span>
+                                <span class="placeholder col-6"></span>
+                                <span class="placeholder col-4"></span>
+                                <span class="placeholder col-7"></span>
+                                <span class="placeholder col-5"></span>
+                            </div>
+                        </div>
+                        <div class="card-footer placeholder-glow">
+                             <a href="#" tabindex="-1" class="btn btn-success disabled placeholder col-5 me-2"></a>
+                             <a href="#" tabindex="-1" class="btn btn-danger disabled placeholder col-5"></a>
+                        </div>
+                    </div>
+                </div>
+                 <div class="col-md-6 col-lg-4">
+                     <div class="ride-request-card placeholder">
+                        <div class="card-body">
+                            <div class="placeholder-glow">
+                                <span class="placeholder col-8"></span>
+                                <span class="placeholder col-6"></span>
+                                <span class="placeholder col-4"></span>
+                                <span class="placeholder col-7"></span>
+                                <span class="placeholder col-5"></span>
+                            </div>
+                        </div>
+                        <div class="card-footer placeholder-glow">
+                             <a href="#" tabindex="-1" class="btn btn-success disabled placeholder col-5 me-2"></a>
+                             <a href="#" tabindex="-1" class="btn btn-danger disabled placeholder col-5"></a>
+                        </div>
+                    </div>
+                </div>
+                 <div class="col-md-6 col-lg-4">
+                     <div class="ride-request-card placeholder">
+                        <div class="card-body">
+                            <div class="placeholder-glow">
+                                <span class="placeholder col-8"></span>
+                                <span class="placeholder col-6"></span>
+                                <span class="placeholder col-4"></span>
+                                <span class="placeholder col-7"></span>
+                                <span class="placeholder col-5"></span>
+                            </div>
+                        </div>
+                        <div class="card-footer placeholder-glow">
+                             <a href="#" tabindex="-1" class="btn btn-success disabled placeholder col-5 me-2"></a>
+                             <a href="#" tabindex="-1" class="btn btn-danger disabled placeholder col-5"></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="no-rides-message" class="text-center mt-5" style="display: none;">
+                <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                <h4>No ride requests available right now.</h4>
+                <p>We'll notify you when a new request comes in.</p>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Bootstrap & jQuery JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Firebase SDK (if needed for real-time updates) -->
+    <!-- <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.0/firebase-database-compat.js"></script> -->
+    <script src="js/script.js"></script> 
+    <script src="js/search-ride.js"></script>
+</body>
+</html> 

@@ -1,0 +1,25 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Allow authenticated users to read and write their own data
+    match /users/{userId} {
+      allow read, update, delete: if request.auth != null && request.auth.uid == userId;
+      allow create: if request.auth != null;
+    }
+    
+    // Rides collection rules
+    match /rides/{rideId} {
+      // Users can read, update their own rides
+      allow read, update: if request.auth != null && request.auth.uid == resource.data.userId;
+      // Users can create new rides
+      allow create: if request.auth != null;
+      // No one can delete rides (for record keeping)
+      allow delete: if false;
+    }
+    
+    // Default deny all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+} 
