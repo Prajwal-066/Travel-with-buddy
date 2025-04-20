@@ -1,7 +1,6 @@
 /* Search Ride Page Styles */
 .search-ride-container {
     padding: 2rem 0;
-    background-color: #f8f9fa;
     min-height: calc(100vh - 80px); /* Adjust based on navbar height */
 }
 
@@ -13,7 +12,6 @@
 
 .search-header h1 {
     font-weight: 600;
-    color: #333;
     font-family: 'Poppins', sans-serif;
 }
 
@@ -37,7 +35,6 @@
 
 /* Ride Request Card */
 .ride-request-card {
-    background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -77,7 +74,6 @@
 
 .info-label {
     font-size: 0.8rem;
-    color: #6c757d;
     margin-bottom: 0.1rem;
     display: block;
 }
@@ -90,15 +86,12 @@
 .fare-estimate {
     font-size: 1.2rem;
     font-weight: 600;
-    color: #198754;
     text-align: right;
     margin-top: 1rem;
 }
 
 .ride-request-card .card-footer {
-    background-color: #f8f9fa;
     padding: 1rem 1.25rem;
-    border-top: 1px solid #e9ecef;
     display: flex;
     justify-content: space-between;
 }

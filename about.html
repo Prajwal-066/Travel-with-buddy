@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Travel with Buddy</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Dark Mode CSS -->
+    <link rel="stylesheet" href="css/dark-mode.css">
+    <style>
+        .about-section {
+            padding: 80px 0;
+        }
+        
+        .about-hero {
+            background-color: #f8f9fa;
+            padding: 80px 0;
+            margin-bottom: 40px;
+        }
+        
+        .team-member {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .team-member img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 50%;
+            margin-bottom: 20px;
+        }
+        
+        .mission-icon {
+            font-size: 3rem;
+            color: #4CAF50;
+            margin-bottom: 20px;
+        }
+        
+        .card {
+            border: none;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            height: 100%;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+        
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: #4CAF50;
+        }
+        
+        .timeline {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background-color: #4CAF50;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+        }
+        
+        .timeline-container {
+            padding: 10px 40px;
+            position: relative;
+            background-color: inherit;
+            width: 50%;
+        }
+        
+        .timeline-container::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            right: -12px;
+            background-color: white;
+            border: 4px solid #4CAF50;
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+        
+        .left {
+            left: 0;
+        }
+        
+        .right {
+            left: 50%;
+        }
+        
+        .right::after {
+            left: -12px;
+        }
+        
+        .timeline-content {
+            padding: 20px 30px;
+            background-color: white;
+            position: relative;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        @media screen and (max-width: 600px) {
+            .timeline::after {
+                left: 31px;
+            }
+            
+            .timeline-container {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            
+            .timeline-container::after {
+                left: 19px;
+            }
+            
+            .left::after, .right::after {
+                left: 19px;
+            }
+            
+            .right {
+                left: 0%;
+            }
+        }
+
+        /* Dark mode adjustments */
+        body.dark-mode .about-hero {
+            background-color: #292929;
+            color: #ffffff;
+        }
+        
+        body.dark-mode .card {
+            background-color: #333333;
+            color: #ffffff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+        
+        body.dark-mode .card:hover {
+            box-shadow: 0 15px 30px rgba(0,0,0,0.25);
+        }
+        
+        body.dark-mode .bg-light {
+            background-color: #292929 !important;
+            color: #ffffff;
+        }
+        
+        body.dark-mode .text-dark {
+            color: #f8f9fa !important;
+        }
+        
+        body.dark-mode .text-muted {
+            color: #b0b0b0 !important;
+        }
+        
+        body.dark-mode .timeline::after {
+            background-color: #4CAF50;
+        }
+        
+        body.dark-mode .timeline-container::after {
+            background-color: #333333;
+            border: 4px solid #4CAF50;
+        }
+        
+        body.dark-mode .timeline-content {
+            background-color: #333333;
+            color: #ffffff;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+        }
+        
+        body.dark-mode .admin-controls {
+            background-color: #333333 !important;
+            color: #ffffff;
+        }
+
+        /* Ensure cards in Join Us section have proper contrast in dark mode */
+        body.dark-mode .bg-primary {
+            background-color: #1a6e1e !important; /* Darker green */
+        }
+        
+        body.dark-mode .bg-white.text-dark {
+            background-color: #333333 !important;
+            color: #ffffff !important;
+        }
+        
+        body.dark-mode .team-member .social-icons a {
+            color: #4CAF50 !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header/Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+        <div class="container">
+            <a class="navbar-brand" href="index.html">
+                <span class="fw-bold text-primary">Travel with Buddy</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="book-ride.html">Book a Ride</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="search-ride.html">For Drivers</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="about.html">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">Contact</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="btn btn-primary ms-lg-3" href="#" data-bs-toggle="modal" data-bs-target="#loginModal">Login / Sign up</a>
+                    </li>
+                    <li class="nav-item ms-2 d-flex align-items-center">
+                        <button id="darkModeBtn" class="btn btn-sm btn-outline-secondary">
+                            <i id="darkModeIcon" class="fas fa-moon dark-mode-icon"></i>
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="about-hero">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <h1 class="fw-bold mb-4">About Travel with Buddy</h1>
+                    <p class="lead mb-4">Our mission is to revolutionize the way people travel by providing a safe, reliable, and convenient ride-sharing platform that connects passengers with trusted buddies who are also travelling to the same destination.</p>
+                    <p class="mb-4">Founded in 2025, Travel with Buddy has a vision to become one of the most trusted ride-sharing platforms in India, serving thousands of customers daily across major cities.</p>
+                    
+                </div>
+                <div class="col-lg-6">
+                    <img src="images/about-hero.jpg" alt="Travel with Buddy Team" class="img-fluid rounded shadow-lg">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Mission -->
+    <section class="about-section">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Our Mission & Values</h2>
+                <p class="lead">What drives us to create the perfect ride-sharing experience</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card p-4 h-100">
+                        <div class="text-center">
+                            <div class="card-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <h4>Safety First</h4>
+                            <p>We prioritize the safety of our passengers and drivers with thorough background checks, real-time tracking, and 24/7 support.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card p-4 h-100">
+                        <div class="text-center">
+                            <div class="card-icon">
+                                <i class="fas fa-leaf"></i>
+                            </div>
+                            <h4>Eco-Friendly</h4>
+                            <p>By promoting ride-sharing, we're committed to reducing traffic congestion and carbon emissions for a cleaner environment.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card p-4 h-100">
+                        <div class="text-center">
+                            <div class="card-icon">
+                                <i class="fas fa-handshake"></i>
+                            </div>
+                            <h4>Community Focus</h4>
+                            <p>We build communities by connecting people and creating economic opportunities for drivers while making transportation accessible to all.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Our Story Timeline -->
+    <!-- <section class="about-section bg-light">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Our Journey</h2>
+                <p class="lead">How Travel with Buddy evolved from an idea to a trusted platform</p>
+            </div>
+            
+            <div class="timeline">
+                <div class="timeline-container left">
+                    <div class="timeline-content">
+                        <h3>2022</h3>
+                        <p>The idea for Travel with Buddy was conceived when our founder experienced transportation challenges during a trip to rural areas.</p>
+                    </div>
+                </div>
+                <div class="timeline-container right">
+                    <div class="timeline-content">
+                        <h3>Early 2023</h3>
+                        <p>Development of the initial platform began with a focus on creating a user-friendly interface and robust backend systems.</p>
+                    </div>
+                </div>
+                <div class="timeline-container left">
+                    <div class="timeline-content">
+                        <h3>Mid 2023</h3>
+                        <p>Travel with Buddy launched in Pune with a small fleet of 50 drivers, quickly gaining popularity for its reliability and service.</p>
+                    </div>
+                </div>
+                <div class="timeline-container right">
+                    <div class="timeline-content">
+                        <h3>Late 2023</h3>
+                        <p>Expanded to 5 major cities across India and introduced new ride options including bikes and XL vehicles for groups.</p>
+                    </div>
+                </div>
+                <div class="timeline-container left">
+                    <div class="timeline-content">
+                        <h3>2024</h3>
+                        <p>Secured funding to accelerate growth and introduced innovative features like scheduled rides and improved safety measures.</p>
+                    </div>
+                </div>
+                <div class="timeline-container right">
+                    <div class="timeline-content">
+                        <h3>Present</h3>
+                        <p>Now operating in over 10 cities with thousands of daily rides and continuously improving our platform based on user feedback.</p>
+                    </div>
+                </div> -->
+            <!-- </div>
+        </div>
+    </section> -->
+
+    <!-- Team Section -->
+    <section class="about-section">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2 class="fw-bold">Meet Our Team</h2>
+                <p class="lead">The passionate people behind Travel with Buddy</p>
+            </div>
+            
+            <div class="row">
+                <div class="col-lg-3 col-md-6">
+                    <div class="team-member">
+                        <!-- <img src="images/team-1.jpg" alt="Team Member" class="img-fluid"> -->
+                        <h4>Vinayak Zalte</h4>
+                        <p class="text-muted">Founder & CEO</p>
+                        <div class="social-icons">
+                            <a href="#" class="text-primary me-2"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" class="text-primary"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="team-member">
+                        <!-- <img src="images/team-2.jpg" alt="Team Member" class="img-fluid"> -->
+                        <h4>Prajwal Waghmare</h4>
+                        <p class="text-muted">Chief Technology Officer, Sr. Developer</p>
+                        <div class="social-icons">
+                            <a href="#" class="text-primary me-2"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" class="text-primary"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="team-member">
+                        <!-- <img src="images/team-3.jpg" alt="Team Member" class="img-fluid"> -->
+                        <h4>Mihir Yadav</h4>
+                        <p class="text-muted">Operations Director, Sr. Developer (Maps)</p>
+                        <div class="social-icons">
+                            <a href="#" class="text-primary me-2"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" class="text-primary"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="team-member">
+                        <!-- <img src="images/team-4.jpg" alt="Team Member" class="img-fluid"> -->
+                        <h4>Kushagra Brijwasi</h4>
+                        <p class="text-muted">Marketing Lead</p>
+                        <div class="social-icons">
+                            <a href="#" class="text-primary me-2"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" class="text-primary"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="team-member">
+                        <h4>Vedant Patil</h4>
+                        <p class="text-muted">Operations Director</p>
+                        <div class="social-icons">
+                            <a href="#" class="text-primary me-2"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" class="text-primary"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="team-member">
+                        <h4>Rushikesh Virkhede</h4>
+                        <p class="text-muted">Co-lead Marketing</p>
+                        <div class="social-icons">
+                            <a href="#" class="text-primary me-2"><i class="fab fa-linkedin-in"></i></a>
+                            <a href="#" class="text-primary"><i class="fab fa-twitter"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Join Us Section -->
+    <section class="about-section bg-primary text-white">
+        <div class="container text-center">
+            <h2 class="fw-bold mb-4">Join the Travel with Buddy Family</h2>
+            <p class="lead mb-4">Whether you're looking for convenient transportation or want to earn as a driver, we have opportunities for you.</p>
+            <div class="row justify-content-center">
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card bg-white text-dark p-4">
+                        <div class="card-icon">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <h4>Become a Rider</h4>
+                        <p>Enjoy safe, convenient rides at affordable prices. Sign up today and get your first ride free!</p>
+                        <a href="book-ride.html" class="btn btn-primary mt-3">Sign Up to Ride</a>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card bg-white text-dark p-4">
+                        <div class="card-icon">
+                            <i class="fas fa-car"></i>
+                        </div>
+                        <h4>Become a Driver</h4>
+                        <p>Earn money on your own schedule. Our drivers enjoy flexible hours and competitive earnings.</p>
+                        <a href="search-ride.html" class="btn btn-primary mt-3">Apply to Drive</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Banner -->
+    <section class="py-5 bg-light">
+        <div class="container text-center">
+            <h2 class="fw-bold mb-4">Have Questions?</h2>
+            <p class="lead mb-4">Our team is always ready to help you with any questions or concerns you might have.</p>
+            <a href="contact.html" class="btn btn-lg btn-primary">Contact Us</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <h5 class="mb-3">Travel with Buddy</h5>
+                    <p class="mb-3">Your trusted ride-sharing platform for safe and convenient travel.</p>
+                    <div class="social-icons">
+                        <a href="#" class="text-white me-3"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-white me-3"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-white"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+                    <h5 class="mb-3">Quick Links</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="index.html" class="text-white text-decoration-none">Home</a></li>
+                        <li class="mb-2"><a href="book-ride.html" class="text-white text-decoration-none">Book a Ride</a></li>
+                        <li class="mb-2"><a href="about.html" class="text-white text-decoration-none">About Us</a></li>
+                        <li><a href="contact.html" class="text-white text-decoration-none">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-4 mb-4 mb-md-0">
+                    <h5 class="mb-3">Support</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Help Center</a></li>
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Safety Center</a></li>
+                        <li class="mb-2"><a href="#" class="text-white text-decoration-none">Community Guidelines</a></li>
+                        <li><a href="#" class="text-white text-decoration-none">Terms of Service</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-3 col-md-4">
+                    <h5 class="mb-3">Contact Us</h5>
+                    <ul class="list-unstyled">
+                        <li class="mb-2"><i class="fas fa-map-marker-alt me-2"></i> Ravet, Pimpri-Chinchwad, Pune, Maharashtra, India</li>
+                        <li class="mb-2"><i class="fas fa-phone-alt me-2"></i> +91 8459237322</li>
+                        <li><i class="fas fa-envelope me-2"></i> info@travelwithbuddy.com</li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4">
+            <div class="text-center">
+                <p class="mb-0">&copy; 2025 Travel with Buddy. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    
+    <!-- Firebase Config -->
+    <script src="js/firebase-config.js"></script>
+    
+    <!-- Authentication Scripts -->
+    <script src="js/auth.js"></script>
+
+    <!-- Dark Mode Script -->
+    <script src="js/dark-mode.js"></script>
+    
+    <!-- Admin Edit Feature Script -->
+    <script>
+        // Check if user is an admin
+        document.addEventListener('DOMContentLoaded', function() {
+            // This would normally check if the current user has admin privileges
+            // For demo purposes, we'll add a button in the console for demonstration
+            console.log("To enable admin edit mode, run: enableAdminEdit()");
+            
+            window.enableAdminEdit = function() {
+                // Make all text content editable
+                const editableElements = document.querySelectorAll('.about-section p, .about-section h2, .about-section h3, .about-section h4');
+                
+                editableElements.forEach(element => {
+                    element.contentEditable = true;
+                    element.style.border = '1px dashed #4CAF50';
+                    element.style.padding = '5px';
+                    element.setAttribute('data-original-content', element.innerHTML);
+                    
+                    // Add hover effect
+                    element.addEventListener('mouseover', function() {
+                        this.style.backgroundColor = 'rgba(76, 175, 80, 0.1)';
+                    });
+                    
+                    element.addEventListener('mouseout', function() {
+                        this.style.backgroundColor = '';
+                    });
+                });
+                
+                // Add save and cancel buttons
+                const adminControls = document.createElement('div');
+                adminControls.className = 'admin-controls position-fixed bottom-0 end-0 m-4 p-3 bg-white shadow rounded';
+                adminControls.innerHTML = `
+                    <button id="saveChanges" class="btn btn-success me-2">Save Changes</button>
+                    <button id="cancelChanges" class="btn btn-outline-danger">Cancel</button>
+                `;
+                document.body.appendChild(adminControls);
+                
+                // Add event listeners to buttons
+                document.getElementById('saveChanges').addEventListener('click', function() {
+                    // This would normally save changes to a database
+                    alert('Changes saved successfully! In a real implementation, these would be saved to a database.');
+                    disableAdminEdit();
+                });
+                
+                document.getElementById('cancelChanges').addEventListener('click', function() {
+                    // Restore original content
+                    editableElements.forEach(element => {
+                        element.innerHTML = element.getAttribute('data-original-content');
+                    });
+                    disableAdminEdit();
+                });
+                
+                alert('Admin edit mode enabled. Click on any text to edit it.');
+            };
+            
+            window.disableAdminEdit = function() {
+                // Remove editable properties
+                const editableElements = document.querySelectorAll('[contenteditable="true"]');
+                editableElements.forEach(element => {
+                    element.contentEditable = false;
+                    element.style.border = '';
+                    element.style.padding = '';
+                    element.removeAttribute('data-original-content');
+                    
+                    // Remove hover effect
+                    element.removeEventListener('mouseover', function() {});
+                    element.removeEventListener('mouseout', function() {});
+                });
+                
+                // Remove admin controls
+                const adminControls = document.querySelector('.admin-controls');
+                if (adminControls) {
+                    adminControls.remove();
+                }
+            };
+        });
+    </script>
+</body>
+</html> 

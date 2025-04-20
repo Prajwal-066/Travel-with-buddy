@@ -25,8 +25,15 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log("Auth state changed. User logged in:", !!user);
         if (user) {
             console.log("User info:", user.email, user.displayName);
+            // Check if this user has saved preferences (driver/passenger)
+            checkUserPreferences(user);
         }
         updateUIForAuthState(user);
+        
+        // Dispatch custom event so other scripts can react to auth changes
+        document.dispatchEvent(new CustomEvent('userAuthChanged', { 
+            detail: { user: user }
+        }));
     });
 
     // Login form submission
@@ -52,12 +59,21 @@ document.addEventListener('DOMContentLoaded', function() {
                     const user = userCredential.user;
                     console.log('User logged in successfully:', user.email);
                     
+                    // Check if we should save user type (driver/passenger)
+                    saveUserType(user);
+                    
                     // Show success alert
                     alert('You are logged in successfully!');
                     
                     // Close modal
                     const modal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
                     if (modal) modal.hide();
+                    
+                    // Redirect to book-ride page if not already there
+                    const currentPath = window.location.pathname;
+                    if (!currentPath.includes('book-ride.html')) {
+                        window.location.href = 'book-ride.html';
+                    }
                 })
                 .catch((error) => {
                     // Show error message
@@ -109,9 +125,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 .then(() => {
                     console.log('Google sign-in data saved to Firestore');
                     
+                    // Save user type if needed
+                    saveUserType(firebase.auth().currentUser);
+                    
                     // Close modal
                     const modal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
                     if (modal) modal.hide();
+                    
+                    // Redirect to book-ride page if not already there
+                    const currentPath = window.location.pathname;
+                    if (!currentPath.includes('book-ride.html')) {
+                        window.location.href = 'book-ride.html';
+                    }
                 })
                 .catch((error) => {
                     console.error('Google Sign-in Error code:', error.code);
@@ -167,12 +192,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 .then(() => {
                     console.log('User registered successfully and data saved to Firestore');
                     
+                    // Save user type if needed
+                    saveUserType(firebase.auth().currentUser);
+                    
                     // Show success alert
                     alert('You are signed up successfully!');
                     
                     // Close modal
                     const modal = bootstrap.Modal.getInstance(document.getElementById('loginModal'));
                     if (modal) modal.hide();
+                    
+                    // Redirect to book-ride page if not already there
+                    const currentPath = window.location.pathname;
+                    if (!currentPath.includes('book-ride.html')) {
+                        window.location.href = 'book-ride.html';
+                    }
                 })
                 .catch((error) => {
                     // Show error message
@@ -205,6 +239,104 @@ document.addEventListener('DOMContentLoaded', function() {
         console.log("Logout button not found");
     }
 });
+
+// Determine and save user type based on the current page
+function saveUserType(user) {
+    if (!user) return;
+    
+    // Get the current page path
+    const currentPath = window.location.pathname;
+    let userType = '';
+    
+    // Check which page the user is on to determine if they're a driver or passenger
+    if (currentPath.includes('search-ride.html')) {
+        userType = 'driver';
+    } else if (currentPath.includes('book-ride.html')) {
+        userType = 'passenger';
+    } else {
+        // Default to passenger for other pages (including index.html)
+        userType = 'passenger';
+    }
+    
+    console.log('Setting user type:', userType);
+    
+    // Save the user type to localStorage for quick access
+    localStorage.setItem('user_type', userType);
+    
+    // Also save to Firestore for persistence
+    firebase.firestore().collection('users').doc(user.uid).update({
+        userType: userType,
+        lastTypeUpdate: firebase.firestore.FieldValue.serverTimestamp()
+    }).then(() => {
+        console.log('User type updated successfully');
+    }).catch(error => {
+        console.error('Error updating user type:', error);
+        // If the update fails because the document doesn't exist yet, create it
+        if (error.code === 'not-found') {
+            firebase.firestore().collection('users').doc(user.uid).set({
+                userType: userType,
+                email: user.email,
+                name: user.displayName || user.email,
+                createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+                lastLogin: firebase.firestore.FieldValue.serverTimestamp()
+            }).then(() => {
+                console.log('User document created with type:', userType);
+            }).catch(err => {
+                console.error('Error creating user document:', err);
+            });
+        }
+    });
+}
+
+// Check user preferences and load from Firestore
+function checkUserPreferences(user) {
+    if (!user) return;
+    
+    // Check if we already have a type stored in localStorage
+    const storedType = localStorage.getItem('user_type');
+    
+    // If we have a stored type and we're on the right page, no need to query Firestore
+    const currentPath = window.location.pathname;
+    if (storedType && 
+        ((storedType === 'driver' && currentPath.includes('search-ride.html')) || 
+         (storedType === 'passenger' && currentPath.includes('book-ride.html')))) {
+        console.log('Using stored user type:', storedType);
+        return;
+    }
+    
+    // Otherwise, check Firestore for the user's preferred type
+    firebase.firestore().collection('users').doc(user.uid).get()
+        .then(doc => {
+            if (doc.exists && doc.data().userType) {
+                const userType = doc.data().userType;
+                console.log('Retrieved user type from Firestore:', userType);
+                
+                localStorage.setItem('user_type', userType);
+                
+                // If the user is on the wrong page for their type, redirect them
+                if (userType === 'driver' && !currentPath.includes('search-ride.html')) {
+                    console.log('Redirecting driver to driver page');
+                    window.location.href = 'search-ride.html';
+                } else if (userType === 'passenger' && !currentPath.includes('book-ride.html')) {
+                    console.log('Redirecting passenger to passenger page');
+                    window.location.href = 'book-ride.html';
+                }
+            } else {
+                // No user type found in Firestore, set default to passenger
+                console.log('No user type found, defaulting to passenger');
+                localStorage.setItem('user_type', 'passenger');
+                
+                // Redirect to book-ride.html if not already there
+                if (!currentPath.includes('book-ride.html')) {
+                    console.log('Redirecting to book ride page (default)');
+                    window.location.href = 'book-ride.html';
+                }
+            }
+        })
+        .catch(error => {
+            console.error('Error checking user preferences:', error);
+        });
+}
 
 // Update UI based on authentication state
 function updateUIForAuthState(user) {

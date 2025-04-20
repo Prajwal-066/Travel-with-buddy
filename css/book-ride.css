@@ -1,4 +1,6 @@
 /* Book Ride Page Styles */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
 .book-ride-container {
     padding: 2rem 0;
     min-height: calc(100vh - 80px);
@@ -21,12 +23,13 @@
     color: #333;
     font-weight: 600;
     margin-bottom: 0.5rem;
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Noto Sans', sans-serif;
 }
 
 .booking-panel p {
     color: #6c757d;
     margin-bottom: 1.5rem;
+    font-family: 'Poppins', sans-serif;
 }
 
 /* Location Input */
@@ -197,18 +200,55 @@
     font-size: 1.1rem;
 }
 
-#book-ride-btn {
-    background-color: #4361ee;
-    border-color: #4361ee;
+/* Book ride button */
+.book-ride-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
     font-weight: 600;
-    padding: 0.75rem 1rem;
+    width: 100%;
     border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    position: relative;
+    overflow: hidden;
 }
 
-#book-ride-btn:hover {
-    background-color: #3a0ca3;
-    border-color: #3a0ca3;
+.book-ride-btn:hover {
+    background-color: #45a049;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.book-ride-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.book-ride-btn:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: all 0.5s ease;
+}
+
+.book-ride-btn:hover:before {
+    left: 100%;
+}
+
+.book-ride-btn:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
 }
 
 /* Map Container */
@@ -222,15 +262,20 @@
 }
 
 #map {
-    height: 300px;
-    width: 100%;
+    height: 400px !important;
+    width: 100% !important;
     border-radius: 10px;
     margin-bottom: 20px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    position: relative;
+    z-index: 1;
+    background-color:transparent;
+    min-height: 400px;
+    display: block !important;
 }
 
 .map-overlay {
-    position: absolute;
+    position: relative;
     bottom: 20px;
     left: 20px;
     z-index: 10;
@@ -389,23 +434,28 @@
     left: 0;
     right: 0;
     z-index: 1000;
-    background: white;
-    border-radius: 0 0 8px 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
-    max-height: 200px;
+    max-height: 250px;
     overflow-y: auto;
-    margin-top: -1px;
-    border: 1px solid #ddd;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.15);
+    border: 1px solid #e9ecef;
+    margin-top: 5px;
 }
 
 .autocomplete-item {
     padding: 10px 15px;
+    border-bottom: 1px solid #f0f0f0;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: background-color 0.2s ease;
+}
+
+.autocomplete-item:last-child {
+    border-bottom: none;
 }
 
 .autocomplete-item:hover {
-    background-color: #f5f5f5;
+    background-color: #f8f9fa;
 }
 
 /* Form container */
@@ -511,7 +561,7 @@
 
 /* Route information */
 .route-info {
-    background-color: #f8f9fa;
+    background-color: #2667a9;
     border-radius: 10px;
     padding: 15px;
     margin-bottom: 20px;
@@ -547,21 +597,6 @@
     font-size: 1.5rem;
     font-weight: 700;
     color: #4361ee;
-}
-
-/* Book ride button */
-.book-ride-btn {
-    background-color: #4361ee;
-    color: white;
-    height: 50px;
-    border-radius: 25px;
-    font-weight: 600;
-    transition: background-color 0.3s;
-    width: 100%;
-}
-
-.book-ride-btn:hover {
-    background-color: #2541be;
 }
 
 /* Modal styles */
@@ -666,4 +701,63 @@
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+/* Mappls AutoSuggest Styling */
+.mappls-autosuggest-box {
+    border-radius: 8px !important;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.15) !important;
+    margin-top: 5px !important;
+    border: 1px solid #e9ecef !important;
+    max-height: 300px !important;
+    overflow-y: auto !important;
+}
+
+.mappls-autosuggest-box .mappls-search-item {
+    padding: 10px 15px !important;
+    border-bottom: 1px solid #f0f0f0 !important;
+    cursor: pointer !important;
+    transition: background-color 0.2s ease !important;
+}
+
+.mappls-autosuggest-box .mappls-search-item:hover {
+    background-color: #f8f9fa !important;
+}
+
+.mappls-autosuggest-box .mappls-search-item.active {
+    background-color: rgba(67, 97, 238, 0.1) !important;
+}
+
+.mappls-autosuggest-box .mappls-search-item .mappls-search-item-title {
+    font-weight: 500 !important;
+    color: #333 !important;
+    margin-bottom: 2px !important;
+}
+
+.mappls-autosuggest-box .mappls-search-item .mappls-search-item-sub-title {
+    font-size: 0.8rem !important;
+    color: #6c757d !important;
+}
+
+/* Enhance the searching loader */
+#searchingLoader {
+    backdrop-filter: blur(5px);
+    transition: all 0.3s ease;
+}
+
+#searchingLoader .spinner-border {
+    width: 4rem;
+    height: 4rem;
+}
+
+/* Animation for the searching message */
+@keyframes pulse {
+    0% { opacity: 0.7; }
+    50% { opacity: 1; }
+    100% { opacity: 0.7; }
+}
+
+#searchingLoader h3 {
+    animation: pulse 1.5s infinite ease-in-out;
+    margin-top: 1rem;
 } 
