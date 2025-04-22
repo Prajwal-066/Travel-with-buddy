@@ -79,60 +79,12 @@
             </div>
 
             <!-- Loading State -->
-            <div id="loading-rides" class="d-none">
-                <div id="ride-requests-list" class="row g-4">
-                    <!-- Ride request placeholder cards -->
-                    <div class="col-md-6 col-lg-4">
-                        <div class="ride-request-card placeholder">
-                            <div class="card-body">
-                                <div class="placeholder-glow">
-                                    <span class="placeholder col-8"></span>
-                                    <span class="placeholder col-6"></span>
-                                    <span class="placeholder col-4"></span>
-                                    <span class="placeholder col-7"></span>
-                                    <span class="placeholder col-5"></span>
-                                </div>
-                            </div>
-                            <div class="card-footer placeholder-glow">
-                                <a href="#" tabindex="-1" class="btn btn-success disabled placeholder col-5 me-2"></a>
-                                <a href="#" tabindex="-1" class="btn btn-danger disabled placeholder col-5"></a>
-                            </div>
-                        </div>
+            <div id="loading-rides">
+                <div class="text-center mb-4">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Loading...</span>
                     </div>
-                    <div class="col-md-6 col-lg-4">
-                        <div class="ride-request-card placeholder">
-                            <div class="card-body">
-                                <div class="placeholder-glow">
-                                    <span class="placeholder col-8"></span>
-                                    <span class="placeholder col-6"></span>
-                                    <span class="placeholder col-4"></span>
-                                    <span class="placeholder col-7"></span>
-                                    <span class="placeholder col-5"></span>
-                                </div>
-                            </div>
-                            <div class="card-footer placeholder-glow">
-                                <a href="#" tabindex="-1" class="btn btn-success disabled placeholder col-5 me-2"></a>
-                                <a href="#" tabindex="-1" class="btn btn-danger disabled placeholder col-5"></a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-4">
-                        <div class="ride-request-card placeholder">
-                            <div class="card-body">
-                                <div class="placeholder-glow">
-                                    <span class="placeholder col-8"></span>
-                                    <span class="placeholder col-6"></span>
-                                    <span class="placeholder col-4"></span>
-                                    <span class="placeholder col-7"></span>
-                                    <span class="placeholder col-5"></span>
-                                </div>
-                            </div>
-                            <div class="card-footer placeholder-glow">
-                                <a href="#" tabindex="-1" class="btn btn-success disabled placeholder col-5 me-2"></a>
-                                <a href="#" tabindex="-1" class="btn btn-danger disabled placeholder col-5"></a>
-                            </div>
-                        </div>
-                    </div>
+                    <p class="mt-2 text-muted">Loading available rides...</p>
                 </div>
             </div>
 
@@ -303,13 +255,16 @@
     <!-- Firebase Config -->
     <script src="js/firebase-config.js"></script>
     
+    <!-- Mappls Maps SDK -->
+    <script src="https://apis.mappls.com/advancedmaps/api/13f147b9591714fd99197feed32e1cdb/map_sdk?layer=vector&v=3.0"></script>
+    
     <!-- Authentication Scripts -->
     <script src="js/auth.js"></script>
     
     <!-- Dark Mode Script -->
     <script src="js/dark-mode.js"></script>
     
-    <!-- Custom JS -->
+    <!-- Custom JS for search ride page -->
     <script src="js/search-ride.js"></script>
 </body>
 </html> 

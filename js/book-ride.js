@@ -54,6 +54,45 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Setup form submission handler
     setupFormSubmitHandler();
+    
+    // Add event listener for confirm ride button
+    document.getElementById('confirmRideBtn').addEventListener('click', function() {
+        // Close the confirmation modal
+        const confirmationModal = document.getElementById('dummyConfirmationModal');
+        const bsModal = bootstrap.Modal.getInstance(confirmationModal);
+        bsModal.hide();
+        
+        // Show success message
+        Swal.fire({
+            title: 'Ride Confirmed!',
+            text: 'Your ride has been confirmed. Your buddy will pick you up shortly.',
+            icon: 'success',
+            confirmButtonText: 'OK'
+        });
+        
+        // Reset the booking form
+        document.getElementById('bookingForm').reset();
+    });
+    
+    // Add event listener for confirm ride button in dummy modal
+    const confirmRideBtn = document.getElementById('confirmRideBtn');
+    if (confirmRideBtn) {
+        confirmRideBtn.addEventListener('click', function() {
+            // Get ride details from the modal
+            const pickup = document.getElementById('dummyPickup').textContent;
+            const destination = document.getElementById('dummyDestination').textContent;
+            const rideType = document.getElementById('dummyRideType').textContent;
+            const fare = document.getElementById('dummyFare').textContent;
+            
+            // Close the confirmation modal
+            const confirmationModal = document.getElementById('dummyConfirmationModal');
+            const bsModal = bootstrap.Modal.getInstance(confirmationModal);
+            bsModal.hide();
+            
+            // Redirect to payment page with ride details
+            window.location.href = `payment.html?pickup=${encodeURIComponent(pickup)}&destination=${encodeURIComponent(destination)}&rideType=${encodeURIComponent(rideType)}&fare=${encodeURIComponent(fare)}`;
+        });
+    }
 });
 
 // Initialize Leaflet map
@@ -420,113 +459,40 @@ const handleFormSubmit = async (e) => {
         return;
     }
     
-    // Disable the submit button and show loading state
-    const bookBtn = e.target.querySelector('.book-ride-btn');
-    const originalBtnText = bookBtn.innerHTML;
-    bookBtn.disabled = true;
-    bookBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>Processing...';
+    // Get ride details for the dummy confirmation
+    const pickupLocation = document.getElementById('pickup-location').value;
+    const destination = document.getElementById('destination').value;
+    const selectedRideType = document.querySelector('.ride-type.active').getAttribute('data-type');
+    const estimatedPrice = document.querySelector('.estimate-value').textContent;
     
-    // Show searching loader
-    const searchingLoader = document.getElementById('searchingLoader');
-    searchingLoader.style.display = 'block';
+    // Show the searching loader
+    document.getElementById('searchingLoader').style.display = 'flex';
     
-    // Set up the cancel button handler
-    const cancelBtn = document.getElementById('cancelSearchBtn');
-    if (cancelBtn) {
-        // Remove any existing event listeners to prevent duplicates
-        cancelBtn.replaceWith(cancelBtn.cloneNode(true));
-        const newCancelBtn = document.getElementById('cancelSearchBtn');
+    // Simulate searching for a driver (3-5 seconds)
+    setTimeout(() => {
+        // Hide the searching loader
+        document.getElementById('searchingLoader').style.display = 'none';
         
-        // Add event listener to the new button
-        newCancelBtn.addEventListener('click', () => {
-            // Cancel the timeout
-            if (searchTimeoutId) {
-                clearTimeout(searchTimeoutId);
-                searchTimeoutId = null;
-            }
-            
-            // Clear progress animation
-            if (progressInterval) {
-                clearInterval(progressInterval);
-            }
-            
-            // Hide searching loader
-            searchingLoader.style.display = 'none';
-            
-            // Reset button state
-            bookBtn.disabled = false;
-            bookBtn.innerHTML = originalBtnText;
-            
-            // Show canceled message
-            showAlert('Ride search canceled', 'info');
-        });
-    }
-    
-    // Initialize progress interval variable outside the if block
-    let progressInterval;
-    
-    // Reset and animate progress bar if it exists
-    const progressBar = searchingLoader.querySelector('.progress-bar');
-    if (progressBar) {
-        progressBar.style.width = '0%';
+        // Set details in the dummy confirmation modal
+        document.getElementById('dummyPickup').textContent = pickupLocation;
+        document.getElementById('dummyDestination').textContent = destination;
+        document.getElementById('dummyRideType').textContent = selectedRideType;
+        document.getElementById('dummyFare').textContent = estimatedPrice;
         
-        // Animate progress bar to simulate searching process
-        let progress = 0;
-        progressInterval = setInterval(() => {
-            // Increment progress, but never reach 100% until we find a driver
-            if (progress < 90) {
-                progress += Math.random() * 3; // Slow down the progress a bit
-                progressBar.style.width = `${progress}%`;
-            }
-        }, 300);
-    }
-    
-    try {
-        // Save ride data to Firestore
-        const rideData = await saveRideData(user);
+        // Show the dummy confirmation modal
+        const dummyModal = new bootstrap.Modal(document.getElementById('dummyConfirmationModal'));
+        dummyModal.show();
         
-        // Set timeout for 10 seconds to simulate searching
-        searchTimeoutId = setTimeout(() => {
-            searchTimeoutId = null; // Clear the ID since timeout has completed
-            
-            // Clear progress animation
-            if (progressBar && progressInterval) {
-                clearInterval(progressInterval);
+        // Optional: Save ride data to Firestore in the background
+        if (user) {
+            try {
+                saveRideData(user);
+                console.log("Ride data saved to Firestore");
+            } catch (error) {
+                console.error("Error saving ride data:", error);
             }
-            
-            // Hide searching loader
-            searchingLoader.style.display = 'none';
-            
-            // Reset button state
-            bookBtn.disabled = false;
-            bookBtn.innerHTML = originalBtnText;
-            
-            // Show "Buddy not available" alert
-            showAlert('Buddy not available. Try again after some time.', 'warning');
-            
-        }, 10000); // 10 seconds timeout
-    } catch (error) {
-        // Clear the timeout if an error occurs
-        if (searchTimeoutId) {
-            clearTimeout(searchTimeoutId);
-            searchTimeoutId = null;
         }
-        
-        // Clear progress animation if it exists
-        if (progressBar && progressInterval) {
-            clearInterval(progressInterval);
-        }
-        
-        // Hide searching loader on error
-        searchingLoader.style.display = 'none';
-        
-        // Reset button state
-        bookBtn.disabled = false;
-        bookBtn.innerHTML = originalBtnText;
-        
-        // Show error message
-        showError('Failed to book ride: ' + error.message);
-    }
+    }, Math.random() * 2000 + 3000); // Random time between 3-5 seconds
 };
 
 // Function to display alert messages with different styles

@@ -760,4 +760,84 @@
 #searchingLoader h3 {
     animation: pulse 1.5s infinite ease-in-out;
     margin-top: 1rem;
+}
+
+/* Enhanced Styles for Confirmation Modal */
+#dummyConfirmationModal .card {
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+#dummyConfirmationModal .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+}
+
+#dummyConfirmationModal .card-header {
+    border-bottom: none;
+    background: linear-gradient(to right, #f8f9fa, #eaeaea);
+    padding: 15px 20px;
+    font-weight: 600;
+}
+
+#dummyConfirmationModal .card-body {
+    padding: 20px;
+}
+
+#dummyConfirmationModal .confirmation-icon {
+    background: radial-gradient(circle, rgba(76, 175, 80, 0.1) 0%, rgba(76, 175, 80, 0) 70%);
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+    padding: 30px;
+}
+
+#dummyConfirmationModal .confirmation-icon i {
+    filter: drop-shadow(0 5px 15px rgba(76, 175, 80, 0.3));
+}
+
+#dummyConfirmationModal .d-flex.justify-content-between {
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+#dummyConfirmationModal .d-flex.justify-content-between:last-child {
+    border-bottom: none;
+}
+
+#dummyConfirmationModal .d-flex.align-items-center {
+    padding: 10px 0;
+}
+
+#dummyConfirmationModal .rounded-circle {
+    border: 3px solid #fff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+#dummyConfirmationModal .modal-header.bg-success {
+    background: linear-gradient(to right, #4CAF50, #45a049) !important;
+}
+
+#dummyConfirmationModal .btn-success {
+    background: linear-gradient(to right, #4CAF50, #45a049);
+    border: none;
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+    transition: all 0.3s ease;
+}
+
+#dummyConfirmationModal .btn-success:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(76, 175, 80, 0.4);
+}
+
+#dummyConfirmationModal .text-warning i {
+    color: #FFC107;
+    filter: drop-shadow(0 1px 3px rgba(255, 193, 7, 0.3));
 } 

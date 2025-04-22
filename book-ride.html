@@ -426,6 +426,105 @@
         </div>
     </div>
 
+    <!-- Dummy Ride Confirmation Modal -->
+    <div class="modal fade" id="dummyConfirmationModal" tabindex="-1" aria-labelledby="dummyConfirmationModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header bg-success text-white">
+                    <h5 class="modal-title" id="dummyConfirmationModalLabel"><i class="fas fa-check-circle me-2"></i>Ride Confirmed!</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="text-center mb-4">
+                        <div class="confirmation-icon">
+                            <i class="fas fa-car-side text-success" style="font-size: 4rem;"></i>
+                        </div>
+                        <h4 class="mt-3">Your ride has been confirmed!</h4>
+                        <p class="text-muted">Your buddy will arrive shortly</p>
+                        <div class="d-flex justify-content-center mt-3">
+                            <div class="badge bg-success me-2 px-3 py-2"><i class="fas fa-clock me-1"></i> On Time</div>
+                            <div class="badge bg-info px-3 py-2"><i class="fas fa-shield-alt me-1"></i> Safe Ride</div>
+                        </div>
+                    </div>
+                    
+                    <div class="card mb-4">
+                        <div class="card-header bg-light">
+                            <h6 class="mb-0"><i class="fas fa-route me-2 text-success"></i>Ride Details</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-muted"><i class="fas fa-circle text-success me-2"></i>Pickup Location:</span>
+                                <span class="fw-bold" id="dummyPickup">Loading...</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-muted"><i class="fas fa-location-dot text-danger me-2"></i>Destination:</span>
+                                <span class="fw-bold" id="dummyDestination">Loading...</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-muted"><i class="fas fa-car me-2"></i>Ride Type:</span>
+                                <span class="fw-bold" id="dummyRideType">Loading...</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span class="text-muted"><i class="fas fa-rupee-sign me-2"></i>Fare:</span>
+                                <span class="fw-bold" id="dummyFare">Loading...</span>
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                    <div class="card mb-3">
+                        <div class="card-header bg-light">
+                            <h6 class="mb-0"><i class="fas fa-user me-2 text-success"></i>Buddy Information</h6>
+                        </div>
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="flex-shrink-0">
+                                    <img src="images/driver.jpg" alt="Buddy Photo" class="rounded-circle" width="70" height="70">
+                                </div>
+                                <div class="flex-grow-1 ms-3">
+                                    <h5 class="mb-0">Rajesh Kumar</h5>
+                                    <p class="text-muted mb-1">Vehicle: Hero Splendor (MH-12-AB-1234)</p>
+                                    <div class="text-warning">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                        <span class="text-muted ms-1">4.8</span>
+                                    </div>
+                                    <span class="badge bg-success mt-2">Verified</span>
+                                    <!-- <span class="badge bg-secondary mt-2">1000+ Rides</span> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center mt-3">
+                        <p class="text-muted small">
+                            <i class="fas fa-info-circle me-1"></i>
+                            Need help? Contact our support team at <strong>help@travelwithbuddy.com</strong>
+                        </p>
+                    </div>
+                    
+                    <!-- Basic Confirm Ride Button -->
+                    <div class="d-grid gap-2 mt-4">
+                        <button type="button" class="btn btn-primary" id="confirmRideBtn">
+                            <i class="fas fa-check me-2"></i>Proceed to Payment
+                        </button>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times-circle me-2"></i>Close
+                    </button>
+                    <button type="button" class="btn btn-success">
+                        <i class="fas fa-phone-alt me-2"></i>Contact Buddy
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="bg-dark text-white py-5">
         <div class="container">

@@ -119,7 +119,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function loadRideRequests() {
         if (!isOnline || !firebase.auth().currentUser) {
-            ridesContainer.classList.add('d-none');
+            // Show dummy ride requests instead of auth message
+            displayDummyRideRequests();
             return;
         }
         
@@ -145,8 +146,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     const rideData = doc.data();
                     rides.push({
                         id: doc.id,
-                        pickup: rideData.pickup,
-                        destination: rideData.destination,
+                        pickup: rideData.pickup.address || rideData.pickup,
+                        destination: rideData.destination.address || rideData.destination,
                         distance: rideData.fareDetails?.distanceKm ? `${rideData.fareDetails.distanceKm} km` : 'N/A',
                         time: 'N/A', // We don't have this in the Firestore data yet
                         fare: rideData.fareDetails?.totalFare || rideData.estimatedPrice || 'N/A',
@@ -157,11 +158,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                 });
                 
-                displayRideRequests(rides);
+                if (rides.length === 0) {
+                    // Show dummy ride requests if no real ones are available
+                    displayDummyRideRequests();
+                } else {
+                    displayRideRequests(rides);
+                }
             }, error => {
                 console.error('Error listening for ride requests:', error);
                 loadingRides.classList.add('d-none');
-                noRidesMessage.style.display = 'block';
+                displayDummyRideRequests();
             });
     }
 
@@ -259,6 +265,30 @@ document.addEventListener('DOMContentLoaded', () => {
     function handleAcceptRide(request, cardElement) {
         console.log(`Accepted ride: ${request.id}`);
         
+        // Check if this is a dummy ride request
+        if (request.id.startsWith('dummy-')) {
+            // For dummy rides, just update the UI without Firestore
+            cardElement.querySelector('.btn-accept').disabled = true;
+            cardElement.querySelector('.btn-reject').disabled = true;
+            cardElement.querySelector('.btn-accept').textContent = 'Accepted';
+            cardElement.querySelector('.card-footer').innerHTML = `<div class="text-success fw-bold">Ride Accepted! Navigating...</div>`;
+            
+            // Show details in modal
+            showRideDetailsModal(request);
+            
+            // Also update all other cards to show this driver is busy
+            const otherCards = document.querySelectorAll(`.ride-request-item:not([data-ride-id="${request.id}"])`);
+            otherCards.forEach(card => {
+                card.querySelector('.btn-accept').disabled = true;
+                card.querySelector('.btn-reject').disabled = true;
+                card.querySelector('.btn-accept').textContent = 'Unavailable';
+                card.querySelector('.btn-reject').textContent = 'Driver Busy';
+            });
+            
+            return;
+        }
+        
+        // For real rides (when user is logged in)
         const user = firebase.auth().currentUser;
         if (!user) {
             alert('You must be logged in to accept rides');
@@ -388,13 +418,23 @@ document.addEventListener('DOMContentLoaded', () => {
     function handleRejectRide(rideId, cardElement) {
         console.log(`Rejected ride: ${rideId}`);
         
-        // Fade out and remove the card
+        // For both dummy and real rides, we just remove the card from UI
         cardElement.style.transition = 'opacity 0.5s ease';
         cardElement.style.opacity = '0';
         setTimeout(() => {
             cardElement.remove();
             updateRideListState(); // Check if list is empty after removal
         }, 500);
+        
+        // If this is a real ride and user is logged in, update Firestore
+        if (!rideId.startsWith('dummy-') && firebase.auth().currentUser) {
+            firebase.firestore().collection('rides').doc(rideId).update({
+                rejectedBy: firebase.firestore.FieldValue.arrayUnion(firebase.auth().currentUser.uid),
+                lastRejectedAt: firebase.firestore.FieldValue.serverTimestamp()
+            }).catch(error => {
+                console.error('Error updating ride rejection status:', error);
+            });
+        }
     }
     
     function updateRideListState() {
@@ -404,5 +444,66 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             noRidesMessage.style.display = 'none';
         }
+    }
+
+    // Function to display dummy ride requests
+    function displayDummyRideRequests() {
+        // Hide loading state
+        loadingRides.classList.add('d-none');
+        ridesContainer.classList.remove('d-none');
+        authRequiredMessage.classList.add('d-none');
+        
+        // Clear any existing ride requests
+        rideRequestsList.innerHTML = '';
+        noRidesMessage.style.display = 'none';
+        
+        // Dummy ride request data
+        const dummyRequests = [
+            {
+                id: 'dummy-1',
+                pickup: 'Hinjewadi Phase 1, Pune',
+                destination: 'Koregaon Park, Pune',
+                distance: '12.5 km',
+                time: '25 min',
+                fare: '₹220',
+                passengerName: 'Aditya Sharma',
+                rating: 4.8,
+                type: 'Car',
+                timestamp: new Date()
+            },
+            {
+                id: 'dummy-2',
+                pickup: 'Baner, Pune',
+                destination: 'FC Road, Shivajinagar, Pune',
+                distance: '8.3 km',
+                time: '18 min',
+                fare: '₹150',
+                passengerName: 'Priya Patel',
+                rating: 4.6,
+                type: 'Bike',
+                timestamp: new Date()
+            },
+            {
+                id: 'dummy-3',
+                pickup: 'Aundh, Pune',
+                destination: 'Senapati Bapat Road, Pune',
+                distance: '5.7 km',
+                time: '15 min',
+                fare: '₹180',
+                passengerName: 'Raj Malhotra',
+                rating: 4.9,
+                type: 'Car',
+                timestamp: new Date()
+            }
+        ];
+        
+        // Display the dummy requests
+        displayRideRequests(dummyRequests);
+        
+        // Add a note to indicate these are sample requests
+        const sampleNote = document.createElement('div');
+        sampleNote.className = 'alert alert-info text-center mt-4';
+        sampleNote.innerHTML = '<i class="fas fa-info-circle me-2"></i> These are sample ride requests for demonstration purposes. Login to see real-time requests.';
+        rideRequestsList.parentNode.appendChild(sampleNote);
     }
 }); 
